@@ -7,13 +7,13 @@ USER root
 
 ARG POSTGRES_VERSION
 ARG TIMESCALE_VERSION
+ENV VERSION_CODENAME=$(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f 2)
 RUN <<EOT
   set -eux
 
   # Install dependencies
   apt-get update
   apt-get install -y --no-install-recommends curl
-  VERSION_CODENAME=$(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f 2)
 
   # Add Timescale apt repo
   . /etc/os-release 2>/dev/null
