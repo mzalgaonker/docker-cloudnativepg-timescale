@@ -21,8 +21,7 @@ RUN <<EOT
 
   # Install Timescale
   apt-get update
-  apt-get install -y --no-install-recommends "timescaledb-2-postgresql-$POSTGRES_VERSION=$TIMESCALE_VERSION~debian$VERSION_ID"
-  apt-get install -y --no-install-recommends "timescaledb-toolkit-postgresql-$POSTGRES_VERSION"
+  apt-get install -y --no-install-recommends "timescaledb-2-postgresql-$POSTGRES_VERSION=$TIMESCALE_VERSION" "timescaledb-toolkit-postgresql-$POSTGRES_VERSION"
 
   # Cleanup
   apt-get purge -y curl
