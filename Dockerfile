@@ -1,18 +1,19 @@
 #syntax=docker/dockerfile:1.10
 
-ARG CLOUDNATIVEPG_VERSION=16.4-7
+ARG CLOUDNATIVEPG_VERSION
 
 FROM ghcr.io/cloudnative-pg/postgresql:$CLOUDNATIVEPG_VERSION
 USER root
 
-ARG POSTGRES_VERSION=16
-ARG TIMESCALE_VERSION=2.16.1
+ARG POSTGRES_VERSION
+ARG TIMESCALE_VERSION
 RUN <<EOT
   set -eux
 
   # Install dependencies
   apt-get update
   apt-get install -y --no-install-recommends curl
+  VERSION_CODENAME=$(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f 2)
 
   # Add Timescale apt repo
   . /etc/os-release 2>/dev/null
@@ -21,7 +22,7 @@ RUN <<EOT
 
   # Install Timescale
   apt-get update
-  apt-get install -y "timescaledb-2-postgresql-$POSTGRES_VERSION" "timescaledb-toolkit-postgresql-$POSTGRES_VERSION"
+  apt-get install -y --no-install-recommends "timescaledb-2-postgresql-$POSTGRES_VERSION=$TIMESCALE_VERSION~debian$VERSION_ID" "timescaledb-toolkit-postgresql-$POSTGRES_VERSION"
 
   # Cleanup
   apt-get purge -y curl
